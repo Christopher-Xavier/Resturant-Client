@@ -4,26 +4,25 @@ import { RestaurantsContext } from "../context/RestaurantsContext";
 import { useHistory } from "react-router-dom";
 import StarRating from "./StarRating";
 
-const RestaurantList = (props) => {
+const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
   let history = useHistory();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await RestaurantFinder.get("/");
+        const response = await RestaurantFinder.get("/StarRating");
         console.log(response.data.data);
         setRestaurants(response.data.data.restaurants);
       } catch (err) {}
     };
 
-    fetchData();
-  }, []);
+    fetchData(); 
+  }, [setRestaurants]);
 
   const handleDelete = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await RestaurantFinder.delete(`/${id}`);
-      setRestaurants(
+      setRestaurants(  
         restaurants.filter((restaurant) => {
           return restaurant.id !== id;
         })
@@ -38,7 +37,7 @@ const RestaurantList = (props) => {
     history.push(`/restaurants/${id}/update`);
   };
 
-  const handleRestaurantSelect = (id) => {
+  const handleRestaurantSelect = async (e, id) => {
     history.push(`/restaurants/${id}`);
   };
 

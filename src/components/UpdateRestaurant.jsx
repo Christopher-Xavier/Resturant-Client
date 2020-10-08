@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
 
 const UpdateRestaurant = (props) => {
   const { id } = useParams();
   let history = useHistory();
-  const { restaurants } = useContext(RestaurantsContext);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("");
@@ -21,15 +21,10 @@ const UpdateRestaurant = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedRestaurant = await RestaurantFinder.put(`/${id}`, {
-      name,
-      location,
-      price_range: priceRange,
-    });
     history.push("/");
   };
 
